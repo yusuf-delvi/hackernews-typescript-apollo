@@ -77,3 +77,33 @@ export const GetLinkById = extendType({
 		});
 	},
 });
+
+export const UpdateLink = extendType({
+	type: 'Mutation',
+	definition(t) {
+		t.field('updateLink', {
+			type: 'Link',
+			args: {
+				id: nonNull(intArg()),
+				description: nonNull(stringArg()),
+				url: nonNull(stringArg()),
+			},
+			resolve(parent, args, context, info) {
+				let idx = null;
+				links.forEach(({ id }, i) => (id === args.id ? (idx = i) : null));
+
+				if (!idx) return null;
+
+				const link = {
+					id: args.id,
+					description: args.description,
+					url: args.description,
+				};
+
+				links[idx] = link;
+
+				return link;
+			},
+		});
+	},
+});
