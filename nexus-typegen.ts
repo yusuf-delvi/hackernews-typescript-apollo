@@ -58,6 +58,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     feed: NexusGenRootTypes['Link'][]; // [Link!]!
+    linkById: NexusGenRootTypes['Link'] | null; // Link
   }
 }
 
@@ -72,6 +73,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     feed: 'Link'
+    linkById: 'Link'
   }
 }
 
@@ -80,6 +82,11 @@ export interface NexusGenArgTypes {
     link: { // args
       description: string; // String!
       url: string; // String!
+    }
+  }
+  Query: {
+    linkById: { // args
+      id?: number | null; // Int
     }
   }
 }
