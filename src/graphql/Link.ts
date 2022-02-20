@@ -107,3 +107,27 @@ export const UpdateLink = extendType({
 		});
 	},
 });
+
+export const DeleteLink = extendType({
+	type: 'Mutation',
+	definition(t) {
+		t.field('deleteLink', {
+			type: 'Link',
+			args: {
+				id: nonNull(intArg()),
+			},
+			resolve(parent, args, context, info) {
+				let idx = null;
+				links.forEach(({ id }, i) => (id === args.id ? (idx = i) : null));
+
+				if (!idx) return null;
+
+				const link = links[idx];
+
+				links.splice(idx, 1);
+
+				return link;
+			},
+		});
+	},
+});
