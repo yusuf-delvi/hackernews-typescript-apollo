@@ -9,12 +9,12 @@ type Link {
 }
 
 type Mutation {
-  deleteLink(id: Int!): Link
+  deleteLink(id: Int!): Boolean
   link(description: String!, url: String!): Link!
   updateLink(description: String!, id: Int!, url: String!): Link
 }
 
 type Query {
   feed: [Link!]!
-  linkById(id: Int): Link
+  linkById(id: Int!): Link
 }
