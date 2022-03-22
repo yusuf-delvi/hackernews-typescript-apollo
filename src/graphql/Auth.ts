@@ -41,7 +41,7 @@ export const AuthMutation = extendType({
 					throw new Error('Incorrect password');
 				}
 
-				const token = jwt.sign({ id: user.id }, APP_SECRET);
+				const token = jwt.sign({ userId: user.id }, APP_SECRET);
 
 				return {
 					user,
@@ -70,7 +70,7 @@ export const AuthMutation = extendType({
 					},
 				});
 
-				const token = jwt.sign({ id: user.id }, APP_SECRET);
+				const token = jwt.sign({ userId: user.id }, APP_SECRET);
 
 				return {
 					token,
