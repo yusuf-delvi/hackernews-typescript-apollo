@@ -24,6 +24,7 @@
 		"bcryptjs": "^2.4.3",
 		"dotenv": "^16.0.0",
 		"graphql": "^15.8.0",
+		"graphql-scalars": "^1.16.0",
 		"jsonwebtoken": "^8.5.1",
 		"nexus": "^1.2.0"
 	}
