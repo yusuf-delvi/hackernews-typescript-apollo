@@ -25,6 +25,14 @@ export const LinkOrderByInput = inputObjectType({
 	},
 });
 
+export const Feed = objectType({
+	name: 'Feed',
+	definition(t) {
+		t.nonNull.list.nonNull.field('links', { type: 'Link' });
+		t.nonNull.int('count');
+	},
+});
+
 export const Link = objectType({
 	name: 'Link',
 	definition(t) {
@@ -62,15 +70,15 @@ export const Link = objectType({
 export const LinkQuery = extendType({
 	type: 'Query',
 	definition(t) {
-		t.nonNull.list.nonNull.field('feed', {
-			type: 'Link',
+		t.nonNull.field('feed', {
+			type: 'Feed',
 			args: {
 				filter: stringArg(),
 				skip: intArg(),
 				take: intArg(),
 				orderBy: arg({ type: list(nonNull(LinkOrderByInput)) }),
 			},
-			resolve(parent, args, context, info) {
+			async resolve(parent, args, context, info) {
 				const where = args.filter
 					? {
 							OR: [
@@ -84,7 +92,7 @@ export const LinkQuery = extendType({
 					  }
 					: {};
 
-				return context.prisma.link.findMany({
+				const links = await context.prisma.link.findMany({
 					where,
 					skip: args?.skip as number | undefined,
 					take: args?.take as number | undefined,
@@ -92,6 +100,13 @@ export const LinkQuery = extendType({
 						| Prisma.Enumerable<Prisma.LinkOrderByWithRelationInput>
 						| undefined,
 				});
+
+				const count = await context.prisma.link.count({ where });
+
+				return {
+					links,
+					count,
+				};
 			},
 		});
 	},
